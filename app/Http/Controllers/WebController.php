@@ -20,7 +20,6 @@ use App\Models\MovieGenre;
 use App\Models\Rating;
 use App\Models\News;
 
-use Illuminate\Support\Carbon;
 use Phpml\FeatureExtraction\TfIdfTransformer;
 use Phpml\FeatureExtraction\TokenCountVectorizer;
 use Phpml\Tokenization\WhitespaceTokenizer;
@@ -49,7 +48,6 @@ class WebController extends Controller
     {
         User::where('point', '>', 100000)->update(['level_id' => 2]);
         User::where('point', '>', 200000)->update(['level_id' => 3]);
-        User::where('point', '>', 500000)->update(['level_id' => 4]);
         $cities = [];
         $theaters = Theater::where('status', 1)->get();
         foreach ($theaters as $theater) {
@@ -649,30 +647,19 @@ class WebController extends Controller
         return response();
     }
 
-    public function checkDiscount(Request $request)
-{
-    $discountcode = $request->input('discount');
-    $discount = Discount::where('code', $discountcode)->first();
-    $userId = Auth::id();
-
-    $usedToday = Ticket::where('user_id', $userId)
-        ->whereDate('created_at', Carbon::today())
-        ->where('discount_id', $discount->id ?? null) 
-        ->exists();
-
-    if ($discount) {
-        if ($usedToday) {
-            return response()->json(['warning' => true, 'discount' => $discount]);
-        }
-
-        if ($discount->quantity > 0) {
-            return response()->json(['success' => true, 'discount' => $discount]);
+    public function checkDiscount(Request $request){
+        $discountcode = $request->input('discount');
+        $discount = Discount::where('code', $discountcode)->first();
+        if ($discount) {
+            if($discount->quantity > 0 ){
+                return response()->json(['success' => true, 'discount' => $discount]);
+            }
+            else{
+                return response()->json(['success' => false, 'discount' => $discount]);
+            }
+            
         } else {
-            return response()->json(['success' => false, 'discount' => $discount]);
+            return response()->json(['fail' => false]);
         }
-    } else {
-        return response()->json(['fail' => true]);
     }
-}
-
 }
