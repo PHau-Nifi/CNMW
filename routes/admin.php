@@ -16,6 +16,8 @@ use App\Http\Controllers\SeatController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\AuthController;
+
 
 Route::prefix('admin')->group(function () {
     //TODO Sign-in admin

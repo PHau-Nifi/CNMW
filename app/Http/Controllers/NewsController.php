@@ -83,8 +83,8 @@ class NewsController extends Controller
         if($request->hasFile('Image')) {
             $file = $request->file('Image');
             $img = $request['image'] = $file;
-            if ($news['image'] != '') {
-                Cloudinary::destroy($news['image']);
+            if ($new['image'] != '') {
+                Cloudinary::destroy($new['image']);
             }
             $cloud = Cloudinary::upload($img->getRealPath(), [
                 'folder' => 'news',

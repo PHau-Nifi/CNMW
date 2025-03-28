@@ -79,7 +79,7 @@ class AuthController extends Controller
         $token = Str::random(20);
         $user->setRememberToken($token);
         $user->save();
-        if($request->type = 'staff'){
+        if($request->type == 'staff'){
             return redirect()->route('verify_email', [
                 'user_id' => $user->id,
                 'token' => $token,
@@ -123,7 +123,7 @@ class AuthController extends Controller
             }
             return redirect('/login')->with('success', 'Đăng ký thành công, vui lòng kiểm tra email để kích hoạt tài khoản !');
         }else{
-            if($request->type = 'staff')
+            if($request->type == 'staff')
             {
                 return redirect('/admin/addUser')->with('success', 'Đăng ký thành công tài khoản !')->with('user', $user);
             }
