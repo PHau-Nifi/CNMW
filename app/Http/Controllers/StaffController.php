@@ -23,6 +23,9 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class StaffController extends Controller
 {
+
+
+    
     public function addUser(){
         return view('admin.web.addUser.index');
     }
